@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Traderkind Patches-->
+  <Operation Class="PatchOperationAdd">
+    <success>Always</success>
+    <xpath>/Defs/TraderKindDef[defName = * and not(defName = "Empire_Caravan_TributeCollector")]/stockGenerators</xpath>
+    <value>
+      <li Class="StockGenerator_Tag">
+        <tradeTag>warbond</tradeTag>
+        <thingDefCountRange>10</thingDefCountRange>
+        <countRange>1~6</countRange>
+        <price>1</price>
+      </li>
+      <li Class="StockGenerator_BuyTradeTag">
+        <tag>warbond</tag>
+      </li>
+    </value>
+  </Operation>
+</Patch>

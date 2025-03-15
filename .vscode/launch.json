@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug-Linux",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build dll linux",
+            "args": [],
+            "program": "",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": true
+        }
+    ]
+}

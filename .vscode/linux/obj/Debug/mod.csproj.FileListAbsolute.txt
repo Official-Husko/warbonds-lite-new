@@ -1,0 +1,7 @@
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/1.5/Assemblies/Template.dll
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/obj/Debug/mod.csproj.AssemblyReference.cache
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/obj/Debug/mod.GeneratedMSBuildEditorConfig.editorconfig
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/obj/Debug/mod.AssemblyInfoInputs.cache
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/obj/Debug/mod.AssemblyInfo.cs
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/obj/Debug/mod.csproj.CoreCompileInputs.cache
+/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/obj/Debug/Template.dll

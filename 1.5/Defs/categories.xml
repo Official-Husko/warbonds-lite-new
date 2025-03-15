@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingCategoryDef>
+    <defName>warbond</defName>
+    <label>Warbond</label>
+    <parent>Items</parent>
+    <resourceReadoutRoot>true</resourceReadoutRoot>
+    <iconPath>World/WorldObjects/Expanding/Town</iconPath>
+  </ThingCategoryDef>
+</Defs>

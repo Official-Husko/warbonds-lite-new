@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "lJfzQnKUtXk=",
+  "success": true,
+  "projectFilePath": "/home/pawbeans/.local/share/Steam/steamapps/common/RimWorld/Mods/rimworld-mod-template/.vscode/linux/mod.csproj",
+  "expectedPackageFiles": [
+    "/home/pawbeans/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.3/microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "/home/pawbeans/.nuget/packages/microsoft.netframework.referenceassemblies.net48/1.0.3/microsoft.netframework.referenceassemblies.net48.1.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
