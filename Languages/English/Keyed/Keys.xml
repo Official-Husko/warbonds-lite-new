@@ -21,14 +21,6 @@
   <militaryAid_multiply.d>It determines how strong the reinforcement group that comes when using bonds is.\nEven if this option is high, a small reinforcement group will come if the price of the bond is low.</militaryAid_multiply.d>
   <priceEvent_multiply.t>Event probability multiply</priceEvent_multiply.t>
   <priceEvent_multiply.d>default - 1</priceEvent_multiply.d>
-  <loanDate.t>Loan expiration period (days)</loanDate.t>
-  <loanDate.d>
-  </loanDate.d>
-  <loanPer.t>Loan interest</loanPer.t>
-  <loanPer.d>
-  </loanPer.d>
-  <loanScale.t>Loan size</loanScale.t>
-  <loanScale.d>The amount that can be borrowed at one time and the maximum amount that can be borrowed will change.</loanScale.d>
   <ExpirationdateLimit>Bond expiration date</ExpirationdateLimit>
   <warbond_graphTitle>War bond</warbond_graphTitle>
   <warbond_t>{0} war bond</warbond_t>
@@ -41,18 +33,4 @@
   <bond.delisting.destroy>[{0}] has been delisted because its price is below ${1}. All of your [{0}] have disappeared, and they created bonds at a new price.</bond.delisting.destroy>
   <bond.quest.up>The price of [{0}] increased by {1}% as a result of your quest.</bond.quest.up>
   <bond.quest.down>The price of [{0}] has decreased by {1}% due to the effect of your quest.</bond.quest.down>
-  <loan.menu>Easy! fast! Instant loan! - Loan amount: {0} / {1}, due date: {2} remaining</loan.menu>
-  <loan.isMax>Limit Excess</loan.isMax>
-  <loan.needRepay>have to pay off the debt.</loan.needRepay>
-  <loan.contract>Contract\n\nType : Credit loan\nInterest : Instant interest accrued once, {0}% / 15days (compound)\nExpiration : {1} left\n\nCaution - Failure to repay loans and interest within the due date is considered hostile and will be attacked indefinitely.\n\nThe amount owed : {2}</loan.contract>
-  <loan.get>Loan : {0}</loan.get>
-  <loan.replay>Pay off : {0}</loan.replay>
-  <loan.notice.interest>Interest on loan of {0} - {1}x{2} => {1}x{3}, left days : {4}</loan.notice.interest>
-  <loan.notice.leftDay>{0}'s dunning letter - {1}x{2}, left days : {3}. If you cannot pay off your debt, file for seizure bankruptcy.</loan.notice.leftDay>
-  <loan.notice.raid>{0}'s dunning letter - If you cannot pay off your debt, file for seizure bankruptcy. We will send more and more troops.</loan.notice.raid>
-  <loan.giveUp>Seizure bankruptcy (all debts are cleared)</loan.giveUp>
-  <loan.noLoan>No debt</loan.noLoan>
-  <loan.delay>Available after {0}</loan.delay>
-  <loan.giveUp.notice1>Seizure bankruptcy\n\nAll factions' debts will be cleared.\n\nInstead, they take 70% of all of your items.</loan.giveUp.notice1>
-  <loan.giveUp.ok>Apply bankruptcy</loan.giveUp.ok>
 </LanguageData>

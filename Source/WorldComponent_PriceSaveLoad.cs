@@ -134,31 +134,4 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
             ar_factionData?.Add(f.GetUniqueLoadID(), data);
         }
     }
-
-
-    public static FactionData getFactionData(Faction f)
-    {
-        return staticInstance.getFactionData_p(f);
-    }
-
-    public FactionData getFactionData_p(Faction f)
-    {
-        var Key = f.GetUniqueLoadID();
-        if (ar_factionData.TryGetValue(Key, out var p))
-        {
-            return p;
-        }
-
-        var data = new FactionData
-        {
-            loan = 0,
-            loan_targetTick = 0,
-            loan_totalTick = 0,
-            loan_per = 0f,
-            loan_raidMulti = 0f
-        };
-        ar_factionData.Add(Key, data);
-
-        return ar_factionData[Key];
-    }
 }

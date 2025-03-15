@@ -367,73 +367,6 @@ public class Core(Map map) : MapComponent(map)
                     }
                 }
             }
-
-
-            // 대출
-            foreach (var f in Find.FactionManager.AllFactions)
-            {
-                if (f.defeated)
-                {
-                    continue;
-                }
-
-                var data = WorldComponent_PriceSaveLoad.getFactionData(f);
-                if (data.loan <= 0)
-                {
-                    continue;
-                }
-
-                if (data.loan_leftTick / GenDate.TicksPerDay % 15 == 0)
-                {
-                    // 이자 증가
-                    Messages.Message(new Message(
-                        "loan.notice.interest".Translate(f.Name, ThingDefOf.Silver.label, data.loan,
-                            data.loan * (1f + data.loan_per),
-                            (data.loan_leftTick < 0 ? 0 : data.loan_leftTick).ToStringTicksToPeriod()),
-                        MessageTypeDefOf.NeutralEvent));
-                    data.loan = Mathf.RoundToInt(data.loan * (1f + data.loan_per));
-                }
-
-                if (data.loan_leftTick < 0 && AbsTickGame / GenDate.TicksPerDay % 2 == 0)
-                {
-                    // 습격
-                    Map map1 = null;
-                    f.TryAffectGoodwillWith(Faction.OfPlayer, -200);
-                    foreach (var m in Find.Maps)
-                    {
-                        if (map1 == null || map1.wealthWatcher.WealthTotal < m.wealthWatcher.WealthTotal)
-                        {
-                            map1 = m;
-                        }
-                    }
-
-                    if (map1 == null)
-                    {
-                        continue;
-                    }
-
-                    if (data.loan_raidMulti < 3f)
-                    {
-                        data.loan_raidMulti = 3f;
-                    }
-                    else
-                    {
-                        data.loan_raidMulti *= 1.5f;
-                    }
-
-                    util.RaidForLoan(map1, f, data.loan_raidMulti);
-                    Messages.Message(new Message("loan.notice.raid".Translate(f.Name),
-                        MessageTypeDefOf.NeutralEvent));
-                }
-                else if (data.loan_leftTick / GenDate.TicksPerDay <= 5)
-                {
-                    // 경고
-                    Messages.Message(new Message(
-                        "loan.notice.leftDay".Translate(f.Name, ThingDefOf.Silver.label, data.loan,
-                            (data.loan_leftTick < 0 ? 0 : data.loan_leftTick).ToStringTicksToPeriod()),
-                        MessageTypeDefOf.ThreatSmall));
-                }
-            }
         }
 
 
@@ -561,7 +494,7 @@ public class Core(Map map) : MapComponent(map)
                             Messages.Message(new Message(
                                 "bond.quest.up".Translate(ar_warbondDef[index].label,
                                     (changeScale * 100f).ToString("0.#")),
-                                MessageTypeDefOf.ThreatSmall));
+                                    MessageTypeDefOf.ThreatSmall));
                         }
                         else
                         {
@@ -569,7 +502,7 @@ public class Core(Map map) : MapComponent(map)
                             Messages.Message(new Message(
                                 "bond.quest.down".Translate(ar_warbondDef[index].label,
                                     "-" + (changeScale * 100f).ToString("0.#")),
-                                MessageTypeDefOf.ThreatSmall));
+                                    MessageTypeDefOf.ThreatSmall));
                         }
 
                         foreach (var st in data.WarSettlementComps)

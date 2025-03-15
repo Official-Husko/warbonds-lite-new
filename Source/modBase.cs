@@ -23,10 +23,6 @@ namespace rimstocks
         public static int militaryAid_cost;
         public static float militaryAid_multiply;
         public static float priceEvent_multiply;
-        public static int loanDate;
-        public static float loanPer;
-        public static int loanScale;
-
 
         public static readonly bool exist_rimWar;
 
@@ -35,13 +31,6 @@ namespace rimstocks
         private SettingHandle<float> dividendPer_s;
 
         private SettingHandle<int> limitDate_s;
-
-
-        private SettingHandle<int> loanDate_s;
-
-        private SettingHandle<float> loanPer_s;
-
-        private SettingHandle<int> loanScale_s;
 
         private SettingHandle<float> maxReward_s;
 
@@ -55,9 +44,7 @@ namespace rimstocks
 
         private SettingHandle<float> rimwarPriceFactor_s;
 
-
         private SettingHandle<float> sellPrice_s;
-
 
         private SettingHandle<bool> useEnemyFaction_s;
 
@@ -126,10 +113,6 @@ namespace rimstocks
             priceEvent_multiply_s = Settings.GetHandle("priceEvent_multiply", "priceEvent_multiply.t".Translate(),
                 "priceEvent_multiply.d".Translate(), 1f);
 
-            loanDate_s = Settings.GetHandle("loanDate", "loanDate.t".Translate(), "loanDate.d".Translate(), 60);
-            loanPer_s = Settings.GetHandle("loanPer", "loanPer.t".Translate(), "loanPer.d".Translate(), 0.05f);
-            loanScale_s = Settings.GetHandle("loanScale", "loanScale.t".Translate(), "loanScale.d".Translate(), 2000);
-
             SettingsChanged();
 
             Core.patchDef2();
@@ -152,13 +135,8 @@ namespace rimstocks
             militaryAid_multiply = militaryAid_multiply_s.Value;
             priceEvent_multiply = priceEvent_multiply_s.Value;
 
-            loanDate = loanDate_s.Value;
-            loanPer = loanPer_s.Value;
-            loanScale = loanScale_s.Value;
-
             Core.patchIncident();
         }
-
 
         public override void MapLoaded(Map map)
         {
