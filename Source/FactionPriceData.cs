@@ -12,12 +12,9 @@ public class FactionPriceData : IExposable
     public string defname;
     public bool graphEnabled = true;
     public string label;
-    public Dictionary<int, float> timeToPriceData = new Dictionary<int, float>();
+    public Dictionary<int, float> timeToPriceData = [];
+    public Dictionary<int, float> timeToTrendData = [];
 
-    public Dictionary<int, float> timeToTrendData = new Dictionary<int, float>();
-
-    //public float loan = 0f;
-    //public int loan_day = 0;
     public void ExposeData()
     {
         Scribe_Values.Look(ref graphEnabled, "graphEnabled", true);
@@ -31,12 +28,7 @@ public class FactionPriceData : IExposable
     public void SavePrice(float tick, float price)
     {
         var unitTime = Mathf.FloorToInt(tick / Harmony_SomeNamespace.modularTicksUnit);
-        if (timeToPriceData.ContainsKey(unitTime))
-        {
-            timeToPriceData.Remove(unitTime);
-        }
-
-        timeToPriceData.Add(unitTime, price);
+        timeToPriceData[unitTime] = price;
     }
 
     public float LoadPrice(float tick)
@@ -60,12 +52,7 @@ public class FactionPriceData : IExposable
     public void SaveTrend(float tick, float trend)
     {
         var unitTime = Mathf.FloorToInt(tick / Harmony_SomeNamespace.modularTicksUnit);
-        if (timeToTrendData.ContainsKey(unitTime))
-        {
-            timeToTrendData.Remove(unitTime);
-        }
-
-        timeToTrendData.Add(unitTime, trend);
+        timeToTrendData[unitTime] = trend;
     }
 
     public float LoadTrend(float tick)

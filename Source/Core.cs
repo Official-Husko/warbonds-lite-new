@@ -577,9 +577,9 @@ public class Core(Map map) : MapComponent(map)
     {
         // Create a warbond item DEF
         foreach (var f in from f in DefDatabase<FactionDef>.AllDefs
-                 where
-                     IsWarbondFaction(f)
-                 select f)
+                          where
+                              IsWarbondFaction(f)
+                          select f)
         {
             var t = new ThingDef
             {
@@ -713,9 +713,9 @@ public class Core(Map map) : MapComponent(map)
     public static void PatchIncident()
     {
         foreach (var i in from i in DefDatabase<IncidentDef>.AllDefs
-                 where
-                     i.defName.Contains("rs_warbond")
-                 select i)
+                          where
+                              i.defName.Contains("rs_warbond")
+                          select i)
         {
             i.baseChance = 3f * ModBase.priceEvent_multiply;
         }

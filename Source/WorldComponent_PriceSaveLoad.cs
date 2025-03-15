@@ -10,8 +10,8 @@ namespace rimstocks;
 public class WorldComponent_PriceSaveLoad : WorldComponent
 {
     public static WorldComponent_PriceSaveLoad staticInstance;
-    public Dictionary<string, FactionData> ar_factionData = new Dictionary<string, FactionData>();
-    public Dictionary<string, FactionPriceData> factionToPriceData = new Dictionary<string, FactionPriceData>();
+    public Dictionary<string, FactionData> ar_factionData = [];
+    public Dictionary<string, FactionPriceData> factionToPriceData = [];
     public bool initialized;
 
     public WorldComponent_PriceSaveLoad(World world) : base(world)

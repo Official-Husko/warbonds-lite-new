@@ -24,35 +24,35 @@ internal class Quest_End
                 switch (p)
                 {
                     case QuestPart_SpawnWorldObject o:
-                    {
-                        if (o.worldObject.def == WorldObjectDefOf.Site && o.worldObject.Faction != null)
                         {
-                            f2 = o.worldObject.Faction.def;
-                        }
-
-                        break;
-                    }
-                    case QuestPart_Incident p2:
-                    {
-                        if (p2.incident == IncidentDefOf.RaidEnemy)
-                        {
-                            f2 = __instance.InvolvedFactions.ToList()[0].def;
-                        }
-
-                        break;
-                    }
-                    default:
-                    {
-                        if (p is not QuestPart_InvolvedFactions)
-                        {
-                            if (p.InvolvedFactions.Any())
+                            if (o.worldObject.def == WorldObjectDefOf.Site && o.worldObject.Faction != null)
                             {
-                                f = p.InvolvedFactions.ToList()[0].def;
+                                f2 = o.worldObject.Faction.def;
                             }
-                        }
 
-                        break;
-                    }
+                            break;
+                        }
+                    case QuestPart_Incident p2:
+                        {
+                            if (p2.incident == IncidentDefOf.RaidEnemy)
+                            {
+                                f2 = __instance.InvolvedFactions.ToList()[0].def;
+                            }
+
+                            break;
+                        }
+                    default:
+                        {
+                            if (p is not QuestPart_InvolvedFactions)
+                            {
+                                if (p.InvolvedFactions.Any())
+                                {
+                                    f = p.InvolvedFactions.ToList()[0].def;
+                                }
+                            }
+
+                            break;
+                        }
                 }
             }
         }
