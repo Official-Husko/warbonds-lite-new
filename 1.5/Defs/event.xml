@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <GameConditionDef>
-    <defName>rs_warbond_rise</defName>
+    <defName>wl_warbond_rise</defName>
     <label>economic boom</label>
     <description>Over the next few days, the overall price of bonds will increase.\nHowever, for some, the price may decline in reverse.</description>
     <endMessage>The economic boom is ending.</endMessage>
@@ -9,14 +9,14 @@
     <letterDef>NeutralEvent</letterDef>
   </GameConditionDef>
   <IncidentDef>
-    <defName>rs_warbond_rise</defName>
+    <defName>wl_warbond_rise</defName>
     <label>economic boom</label>
     <category>Misc</category>
     <targetTags>
       <li>World</li>
     </targetTags>
     <workerClass>IncidentWorker_MakeGameCondition</workerClass>
-    <gameCondition>rs_warbond_rise</gameCondition>
+    <gameCondition>wl_warbond_rise</gameCondition>
     <letterLabel>economic boom</letterLabel>
     <letterDef>NeutralEvent</letterDef>
     <baseChance>3</baseChance>
@@ -24,7 +24,7 @@
     <durationDays>2~6</durationDays>
   </IncidentDef>
   <GameConditionDef>
-    <defName>rs_warbond_fall</defName>
+    <defName>wl_warbond_fall</defName>
     <label>economic crisis</label>
     <description>Over the next few days, the overall price of bonds will decline.\nHowever, for some, the price may rise in reverse.</description>
     <endMessage>The economic crisis is ending.</endMessage>
@@ -32,14 +32,14 @@
     <letterDef>NeutralEvent</letterDef>
   </GameConditionDef>
   <IncidentDef>
-    <defName>rs_warbond_fall</defName>
+    <defName>wl_warbond_fall</defName>
     <label>economic crisis</label>
     <category>Misc</category>
     <targetTags>
       <li>World</li>
     </targetTags>
     <workerClass>IncidentWorker_MakeGameCondition</workerClass>
-    <gameCondition>rs_warbond_fall</gameCondition>
+    <gameCondition>wl_warbond_fall</gameCondition>
     <letterLabel>economic crisis</letterLabel>
     <letterDef>NeutralEvent</letterDef>
     <baseChance>3</baseChance>
@@ -47,7 +47,7 @@
     <durationDays>2~6</durationDays>
   </IncidentDef>
   <GameConditionDef>
-    <defName>rs_warbond_change</defName>
+    <defName>wl_warbond_change</defName>
     <label>Rapid economic change</label>
     <description>The prices of all bonds will fluctuate rapidly over the next few days.</description>
     <endMessage>The Rapid economic change is ending.</endMessage>
@@ -55,14 +55,14 @@
     <letterDef>NeutralEvent</letterDef>
   </GameConditionDef>
   <IncidentDef>
-    <defName>rs_warbond_change</defName>
+    <defName>wl_warbond_change</defName>
     <label>Rapid economic change</label>
     <category>Misc</category>
     <targetTags>
       <li>World</li>
     </targetTags>
     <workerClass>IncidentWorker_MakeGameCondition</workerClass>
-    <gameCondition>rs_warbond_change</gameCondition>
+    <gameCondition>wl_warbond_change</gameCondition>
     <letterLabel>Rapid economic change</letterLabel>
     <letterDef>NeutralEvent</letterDef>
     <baseChance>3</baseChance>
