@@ -309,29 +309,16 @@ public class Core(Map map) : MapComponent(map)
                     WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame, newTrend);
                     WorldComponent_PriceSaveLoad.SavePrice(f, AbsTickGame, newPrice);
 
-
-                    // Delisting
-                    if (!(newPrice < ModBase.DelistingPrice))
+                    // Update logic to reset price instead of delisting
+                    if (newPrice < 1f)
                     {
-                        continue;
-                    }
-
-                    WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame - GenDate.TicksPerDay,
-                        GetDefaultPrice(f));
-                    WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame, GetDefaultPrice(f));
-                    WorldComponent_PriceSaveLoad.SavePrice(f, AbsTickGame, GetDefaultPrice(f));
-
-                    if (Util.RemoveAllThingByDef(ar_warbondDef[i]))
-                    {
+                        newPrice = 1f;
+                        ar_warbondDef[i].SetStatBaseValue(StatDefOf.MarketValue, newPrice);
+                        WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame, newPrice);
+                        WorldComponent_PriceSaveLoad.SavePrice(f, AbsTickGame, newPrice);
                         Messages.Message(new Message(
-                            "bond.delisting.destroy".Translate(ar_warbondDef[i].label, ModBase.DelistingPrice),
-                            MessageTypeDefOf.ThreatSmall));
-                    }
-                    else
-                    {
-                        Messages.Message(new Message(
-                            "bond.delisting".Translate(ar_warbondDef[i].label, ModBase.DelistingPrice),
-                            MessageTypeDefOf.ThreatSmall));
+                            "bond.reset".Translate(ar_warbondDef[i].label, newPrice),
+                            MessageTypeDefOf.NeutralEvent));
                     }
                 }
             }

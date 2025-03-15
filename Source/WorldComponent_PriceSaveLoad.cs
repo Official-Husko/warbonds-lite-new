@@ -10,7 +10,6 @@ namespace rimstocks;
 public class WorldComponent_PriceSaveLoad : WorldComponent
 {
     public static WorldComponent_PriceSaveLoad staticInstance;
-    public Dictionary<string, FactionData> ar_factionData = [];
     public Dictionary<string, FactionPriceData> factionToPriceData = [];
     public bool initialized;
 
@@ -109,16 +108,5 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
     {
         Scribe_Values.Look(ref initialized, "initialized");
         Scribe_Collections.Look(ref factionToPriceData, "husko_FactionPriceData", LookMode.Value, LookMode.Deep);
-        Scribe_Collections.Look(ref ar_factionData, "husko_FactionData", LookMode.Value, LookMode.Deep);
-        if (ar_factionData != null)
-        {
-            return;
-        }
-
-        foreach (var f in Find.FactionManager.AllFactions)
-        {
-            var data = new FactionData();
-            ar_factionData?.Add(f.GetUniqueLoadID(), data);
-        }
     }
 }

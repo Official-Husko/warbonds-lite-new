@@ -61,6 +61,8 @@ namespace rimstocks
             {
                 ExtraHistoryTabIndex = 4;
             }
+
+            Log.Message(ExtraHistoryTabIndex.ToString());
         }
 
         public override string ModIdentifier => "husko.warbonds.lite";
