@@ -10,7 +10,7 @@ namespace rimstocks;
 
 public class Core(Map map) : MapComponent(map)
 {
-    public enum en_graphStyle
+    public enum GraphStyle
     {
         small,
         normal,
@@ -19,7 +19,7 @@ public class Core(Map map) : MapComponent(map)
 
     public static readonly List<ThingDef> ar_warbondDef = [];
     public static readonly List<FactionDef> ar_faction = [];
-    public static readonly List<en_graphStyle> ar_graphStyle = [];
+    public static readonly List<GraphStyle> ar_graphStyle = [];
 
     public static readonly float basicPrice = 500f;
     private readonly float maxPrice = 10000f;
@@ -30,7 +30,7 @@ public class Core(Map map) : MapComponent(map)
     public static int AbsTickGame => Find.TickManager.TicksGame + (GenDate.GameStartHourOfDay * GenDate.TicksPerHour);
 
 
-    public static bool isWarbondFaction(FactionDef f)
+    public static bool IsWarbondFaction(FactionDef f)
     {
         if (f.pawnGroupMakers == null ||
             f.hidden ||
@@ -74,39 +74,37 @@ public class Core(Map map) : MapComponent(map)
         {
             return;
         }
-        // 틱 - 매일
 
-        //if (testDay < AbsTickGame / GenDate.TicksPerDay) // 테스트
         if (AbsTickGame % GenDate.TicksPerDay == 0)
         {
             if (modBase.use_rimwar)
             {
-                // 림워
+                // RimWar
                 try
                 {
                     ((Action)(() =>
                     {
-                        // 이벤트에 따른 변화
+                        // Changes according to events
                         foreach (var gc in Find.World.gameConditionManager.ActiveConditions)
                         {
                             switch (gc.def.defName)
                             {
-                                case "rs_warbond_rise":
-                                    // 주가 급상승
+                                case "wl_warbond_rise":
+                                    // Stock price surge
                                     changeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.8f);
                                     break;
-                                case "rs_warbond_fall":
-                                    // 주가 급하강
+                                case "wl_warbond_fall":
+                                    // Stock price plunge
                                     changeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.2f);
                                     break;
-                                case "rs_warbond_change":
-                                    // 주가 급변동
+                                case "wl_warbond_change":
+                                    // Stock price fluctuations
                                     changeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.5f);
                                     break;
                             }
                         }
 
-                        // 현재 Faction power를 가격으로 적용
+                        // Apply faction power to price now
                         foreach (var fd in ar_faction)
                         {
                             var price = getRimwarPriceByDef(fd);
@@ -122,9 +120,9 @@ public class Core(Map map) : MapComponent(map)
             }
             else
             {
-                // 일반
+                // common
 
-                // 채권 가격변동
+                // Stock price fluctuations
                 var tickGap = GenDate.TicksPerDay;
 
 
@@ -135,25 +133,18 @@ public class Core(Map map) : MapComponent(map)
                     var prevTrend = WorldComponent_PriceSaveLoad.loadTrend(f, AbsTickGame - tickGap);
                     var prevTrend2 = WorldComponent_PriceSaveLoad.loadTrend(f, AbsTickGame - (tickGap * 2));
 
-                    // 추세 각도
-                    float slope;
-                    switch (style)
+                    // Trend angle
+                    float slope = style switch
                     {
-                        case en_graphStyle.small:
-                            slope = prevTrend / prevTrend2 * Rand.Range(0.85f, 1.15f);
-                            break;
-                        default:
-                            slope = prevTrend / prevTrend2 * Rand.Range(0.96f, 1.04f);
-                            break;
-                        case en_graphStyle.big:
-                            slope = prevTrend / prevTrend2 * Rand.Range(0.995f, 1.005f);
-                            break;
-                    }
+                        GraphStyle.small => prevTrend / prevTrend2 * Rand.Range(0.85f, 1.15f),
+                        GraphStyle.big => prevTrend / prevTrend2 * Rand.Range(0.995f, 1.005f),
+                        _ => prevTrend / prevTrend2 * Rand.Range(0.96f, 1.04f)
+                    };
 
-                    // 진동
+                    // vibration    
                     var shake = 1f + Rand.Range(-0.05f, 0.05f);
 
-                    // 상한 하한에서 튕겨 내려오기
+                    // bounce off the upper and lower limits
                     /*
                         if ((prevTrend >= maxPrice && Rand.Chance(0.2f)) || (prevTrend <= minPrice && Rand.Chance(0.2f)))
                         {
@@ -165,37 +156,20 @@ public class Core(Map map) : MapComponent(map)
                         slope += 1f / slope;
                     }
 
-                    // 낮은확률로 그래프 꺽기
+                    // Bounce off the upper and lower limits with a low probability
+                    slope = style switch
+                    {
+                        GraphStyle.small when Rand.Chance(0.15f) => 1f / slope,
+                        GraphStyle.big when Rand.Chance(0.1f) => 1f / slope,
+                        _ when Rand.Chance(0.12f) => 1f / slope,
+                        _ => slope
+                    };
+
+
+                    // The higher the angle, the greater the probability of becoming gentler
                     switch (style)
                     {
-                        case en_graphStyle.small:
-                            if (Rand.Chance(0.15f))
-                            {
-                                slope = 1f / slope;
-                            }
-
-                            break;
-                        default:
-                            if (Rand.Chance(0.12f))
-                            {
-                                slope = 1f / slope;
-                            }
-
-                            break;
-                        case en_graphStyle.big:
-                            if (Rand.Chance(0.1f))
-                            {
-                                slope = 1f / slope;
-                            }
-
-                            break;
-                    }
-
-
-                    // 각도가 클 수록 완만해질 확률 증가
-                    switch (style)
-                    {
-                        case en_graphStyle.small:
+                        case GraphStyle.small:
                             if (Rand.Chance(Mathf.Abs(slope - 1f) * 0.8f))
                             {
                                 slope = 1f + ((slope - 1f) * Rand.Range(0.1f, 0.4f));
@@ -209,7 +183,7 @@ public class Core(Map map) : MapComponent(map)
                             }
 
                             break;
-                        case en_graphStyle.big:
+                        case GraphStyle.big:
                             if (Rand.Chance(Mathf.Abs(slope - 1f) * 2.4f))
                             {
                                 slope = 1f + ((slope - 1f) * Rand.Range(0.1f, 0.4f));
@@ -219,14 +193,14 @@ public class Core(Map map) : MapComponent(map)
                     }
 
 
-                    // 이벤트에 따른 변화
+                    // Changes according to events
                     var eventDir = 0;
                     foreach (var gc in Find.World.gameConditionManager.ActiveConditions)
                     {
                         switch (gc.def.defName)
                         {
                             case "rs_warbond_rise":
-                                // 주가 급상승
+                                // Stock price surge
                                 if (Rand.Chance(0.8f))
                                 {
                                     eventDir = 1;
@@ -238,7 +212,7 @@ public class Core(Map map) : MapComponent(map)
 
                                 break;
                             case "rs_warbond_fall":
-                                // 주가 급하강
+                                // Stock price plunge
                                 if (Rand.Chance(0.2f))
                                 {
                                     eventDir = 1;
@@ -250,7 +224,7 @@ public class Core(Map map) : MapComponent(map)
 
                                 break;
                             case "rs_warbond_change":
-                                // 주가 급변동
+                                // Stock price fluctuations
                                 if (Rand.Chance(0.5f))
                                 {
                                     eventDir = 1;
@@ -268,23 +242,23 @@ public class Core(Map map) : MapComponent(map)
                     {
                         switch (style)
                         {
-                            case en_graphStyle.small:
+                            case GraphStyle.small:
                                 slope = 1f + (Rand.Range(0.1f, 0.5f) * eventDir);
                                 break;
                             default:
                                 slope = 1f + (Rand.Range(0.07f, 0.35f) * eventDir);
                                 break;
-                            case en_graphStyle.big:
+                            case GraphStyle.big:
                                 slope = 1f + (Rand.Range(0.04f, 0.2f) * eventDir);
                                 break;
                         }
                     }
 
 
-                    // 가격이 높을수록 꺽여 내려올 확률 증가
+                    // The higher the price, the greater the probability of becoming gentler
                     switch (style)
                     {
-                        case en_graphStyle.small:
+                        case GraphStyle.small:
                             if (slope > 1f && Rand.Chance(prevTrend / 700f * 0.2f))
                             {
                                 slope = 1f / slope * Rand.Range(0.9f, 0.95f);
@@ -298,7 +272,7 @@ public class Core(Map map) : MapComponent(map)
                             }
 
                             break;
-                        case en_graphStyle.big:
+                        case GraphStyle.big:
                             if (slope > 1f && Rand.Chance(Mathf.Max(0f, prevTrend - 4000f) / 3500f * 0.2f))
                             {
                                 slope = 1f / slope * Rand.Range(0.9f, 0.95f);
@@ -308,10 +282,10 @@ public class Core(Map map) : MapComponent(map)
                     }
 
 
-                    // 가격이 낮을수록 꺽여 올라갈 확률 증가
+                    // The lower the price, the greater the probability of becoming gentler
                     switch (style)
                     {
-                        case en_graphStyle.small:
+                        case GraphStyle.small:
                             if (slope < 1f && Rand.Chance(Mathf.Clamp((400f - prevTrend) / 400f * 0.02f, 0f, 1f)))
                             {
                                 slope *= Rand.Range(1.05f, 1.1f);
@@ -325,7 +299,7 @@ public class Core(Map map) : MapComponent(map)
                             }
 
                             break;
-                        case en_graphStyle.big:
+                        case GraphStyle.big:
                             if (slope < 1f && Rand.Chance(Mathf.Clamp((400f - prevTrend) / 400f * 0.015f, 0f, 1f)))
                             {
                                 slope *= Rand.Range(1.05f, 1.1f);
@@ -342,7 +316,7 @@ public class Core(Map map) : MapComponent(map)
                     WorldComponent_PriceSaveLoad.savePrice(f, AbsTickGame, newPrice);
 
 
-                    // 상장폐지
+                    // Delisting
                     if (!(newPrice < modBase.DelistingPrice))
                     {
                         continue;
@@ -370,15 +344,13 @@ public class Core(Map map) : MapComponent(map)
         }
 
 
-        // 틱 - 분기
-
-        //if (Find.TickManager.TicksAbs % 500 == 0) // 테스트
+        // Tick ​​- Quarter
         if (Find.TickManager.TicksAbs % GenDate.TicksPerQuadrum != GenDate.TicksPerHour)
         {
             return;
         }
 
-        // 배당금 지급
+        // Pay dividends
         for (var i = 0; i < ar_faction.Count; i++)
         {
             util.giveDividend(ar_faction[i], ar_warbondDef[i]);
@@ -396,7 +368,7 @@ public class Core(Map map) : MapComponent(map)
 
         if (modBase.use_rimwar)
         {
-            // 림워
+            // RimWar
             try
             {
                 ((Action)(() =>
@@ -432,7 +404,7 @@ public class Core(Map map) : MapComponent(map)
                                     Messages.Message(new Message(
                                         "bond.quest.up".Translate(ar_warbondDef[index].label,
                                             (changeScale * 100f).ToString("0.#")),
-                                        MessageTypeDefOf.ThreatSmall));
+                                            MessageTypeDefOf.ThreatSmall));
                                 }
                                 else
                                 {
@@ -440,7 +412,7 @@ public class Core(Map map) : MapComponent(map)
                                     Messages.Message(new Message(
                                         "bond.quest.down".Translate(ar_warbondDef[index].label,
                                             "-" + (changeScale * 100f).ToString("0.#")),
-                                        MessageTypeDefOf.ThreatSmall));
+                                            MessageTypeDefOf.ThreatSmall));
                                 }
 
                                 foreach (var st in data.WarSettlementComps)
@@ -526,7 +498,7 @@ public class Core(Map map) : MapComponent(map)
             return;
         }
 
-        // 일반
+        // common
         float prev;
         if (f != null)
         {
@@ -601,12 +573,12 @@ public class Core(Map map) : MapComponent(map)
     }
 
 
-    public static void patchDef()
+    public static void PatchDef()
     {
-        // 채권 아이템 DEF 생성
+        // Create a warbond item DEF
         foreach (var f in from f in DefDatabase<FactionDef>.AllDefs
                  where
-                     isWarbondFaction(f)
+                     IsWarbondFaction(f)
                  select f)
         {
             var t = new ThingDef
@@ -682,7 +654,7 @@ public class Core(Map map) : MapComponent(map)
             }
 
 
-            // 등록
+            // Register
             ar_warbondDef.Add(t);
             ar_faction.Add(f);
             switch (f.defName)
@@ -690,37 +662,37 @@ public class Core(Map map) : MapComponent(map)
                 default:
                     if (f.modContentPack.PackageId.Contains("ludeon"))
                     {
-                        ar_graphStyle.Add(!f.naturalEnemy ? en_graphStyle.normal : en_graphStyle.small);
+                        ar_graphStyle.Add(!f.naturalEnemy ? GraphStyle.normal : GraphStyle.small);
                     }
                     else
                     {
                         switch (ar_graphStyle.Count % 4)
                         {
                             default:
-                                ar_graphStyle.Add(en_graphStyle.normal);
+                                ar_graphStyle.Add(GraphStyle.normal);
                                 break;
                             case 0:
-                                ar_graphStyle.Add(en_graphStyle.big);
+                                ar_graphStyle.Add(GraphStyle.big);
                                 break;
                             case 2:
-                                ar_graphStyle.Add(en_graphStyle.small);
+                                ar_graphStyle.Add(GraphStyle.small);
                                 break;
                         }
                     }
 
                     break;
                 case "Pirate":
-                    ar_graphStyle.Add(en_graphStyle.small);
+                    ar_graphStyle.Add(GraphStyle.small);
                     break;
                 case "Empire":
-                    ar_graphStyle.Add(en_graphStyle.big);
+                    ar_graphStyle.Add(GraphStyle.big);
                     break;
             }
 
             DefGenerator.AddImpliedDef(t);
         }
 
-        patchIncident();
+        PatchIncident();
     }
 
 
@@ -738,7 +710,7 @@ public class Core(Map map) : MapComponent(map)
         }
     }
 
-    public static void patchIncident()
+    public static void PatchIncident()
     {
         foreach (var i in from i in DefDatabase<IncidentDef>.AllDefs
                  where
@@ -759,15 +731,12 @@ public class Core(Map map) : MapComponent(map)
         }
 
         var style = ar_graphStyle[index];
-        switch (style)
+        return style switch
         {
-            case en_graphStyle.small:
-                return Rand.Range(350f, 450f);
-            default:
-                return Rand.Range(1750f, 2050f);
-            case en_graphStyle.big:
-                return Rand.Range(4100f, 4500f);
-        }
+            GraphStyle.small => Rand.Range(350f, 450f),
+            GraphStyle.big => Rand.Range(4100f, 4500f),
+            _ => Rand.Range(1750f, 2050f)
+        };
     }
 
     public static void changeRimwarAllFactionPower(FloatRange changeScaleRange, float increasePer)
@@ -811,7 +780,7 @@ public class Core(Map map) : MapComponent(map)
             return price;
         }
 
-        // 림워
+        // RimWar
         try
         {
             ((Action)(() =>
@@ -846,7 +815,7 @@ public class Core(Map map) : MapComponent(map)
             return price;
         }
 
-        // 림워
+        // RimWar
         try
         {
             ((Action)(() =>

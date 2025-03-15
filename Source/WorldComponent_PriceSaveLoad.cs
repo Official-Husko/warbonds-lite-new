@@ -85,7 +85,7 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
                 */
             foreach (var f in from f in DefDatabase<FactionDef>.AllDefs
                      where
-                         Core.isWarbondFaction(f)
+                         Core.IsWarbondFaction(f)
                      select f)
             {
                 if (modBase.use_rimwar)
