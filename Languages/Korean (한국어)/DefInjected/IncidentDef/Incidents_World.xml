@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <rs_warbond_rise.label>경제 호황</rs_warbond_rise.label>
+  <rs_warbond_rise.letterLabel>경제 호황</rs_warbond_rise.letterLabel>
+  <rs_warbond_fall.label>경제 공황</rs_warbond_fall.label>
+  <rs_warbond_fall.letterLabel>경제 공황</rs_warbond_fall.letterLabel>
+  <rs_warbond_change.label>경제 급변</rs_warbond_change.label>
+  <rs_warbond_change.letterLabel>경제 급변</rs_warbond_change.letterLabel>
+</LanguageData>

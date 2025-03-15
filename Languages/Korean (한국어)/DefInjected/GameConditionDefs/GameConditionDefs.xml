@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <rs_warbond_rise.label>경제 호황</rs_warbond_rise.label>
+  <rs_warbond_rise.letterText>앞으로 며칠간 전반적인 채권의 가격이 상승합니다.\n그러나 몇몇은 반대로 가격이 하락할 수 있습니다.</rs_warbond_rise.letterText>
+  <rs_warbond_rise.description>앞으로 며칠간 전반적인 채권의 가격이 상승합니다.\n그러나 몇몇은 반대로 가격이 하락할 수 있습니다.</rs_warbond_rise.description>
+  <rs_warbond_rise.endMessage>경제 호황 종료</rs_warbond_rise.endMessage>
+  <rs_warbond_fall.label>경제 공황</rs_warbond_fall.label>
+  <rs_warbond_fall.letterText>앞으로 며칠간 전반적인 채권의 가격이 하락합니다.\n그러나 몇몇은 반대로 가격이 상승할 수 있습니다.</rs_warbond_fall.letterText>
+  <rs_warbond_fall.description>앞으로 며칠간 전반적인 채권의 가격이 하락합니다.\n그러나 몇몇은 반대로 가격이 상승할 수 있습니다.</rs_warbond_fall.description>
+  <rs_warbond_fall.endMessage>경제 공황 종료</rs_warbond_fall.endMessage>
+  <rs_warbond_change.label>경제 급변</rs_warbond_change.label>
+  <rs_warbond_change.letterText>앞으로 며칠간 모든 채권의 가격이 급격히 변동합니다.</rs_warbond_change.letterText>
+  <rs_warbond_change.description>앞으로 며칠간 모든 채권의 가격이 급격히 변동합니다.</rs_warbond_change.description>
+  <rs_warbond_change.endMessage>경제 급변 종료</rs_warbond_change.endMessage>
+</LanguageData>
