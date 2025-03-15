@@ -71,10 +71,7 @@ public class CustomGraphGroup
             return;
         }
 
-        if (style == null)
-        {
-            style = new SimpleCurveDrawerStyle();
-        }
+        style ??= new SimpleCurveDrawerStyle();
 
         var flipper = true;
         var viewRect = default(Rect);

@@ -240,18 +240,12 @@ public class Core(Map map) : MapComponent(map)
 
                     if (eventDir != 0)
                     {
-                        switch (style)
+                        slope = style switch
                         {
-                            case GraphStyle.small:
-                                slope = 1f + (Rand.Range(0.1f, 0.5f) * eventDir);
-                                break;
-                            default:
-                                slope = 1f + (Rand.Range(0.07f, 0.35f) * eventDir);
-                                break;
-                            case GraphStyle.big:
-                                slope = 1f + (Rand.Range(0.04f, 0.2f) * eventDir);
-                                break;
-                        }
+                            GraphStyle.small => 1f + (Rand.Range(0.1f, 0.5f) * eventDir),
+                            GraphStyle.big => 1f + (Rand.Range(0.04f, 0.2f) * eventDir),
+                            _ => 1f + (Rand.Range(0.07f, 0.35f) * eventDir),
+                        };
                     }
 
 
@@ -358,7 +352,7 @@ public class Core(Map map) : MapComponent(map)
     }
 
 
-    public static void OnQuestResult(FactionDef f, FactionDef f2, bool success, float point)
+    public static void OnQuestResult(FactionDef f, FactionDef f2, bool success)
     {
         var targetTime = AbsTickGame;
         float changeScale;

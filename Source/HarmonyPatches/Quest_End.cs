@@ -60,23 +60,23 @@ internal class Quest_End
         switch (outcome)
         {
             case QuestEndOutcome.Fail:
-                Core.OnQuestResult(f, f2, false, __instance.points);
+                Core.OnQuestResult(f, f2, false);
                 break;
             case QuestEndOutcome.Success:
-                Core.OnQuestResult(f, f2, true, __instance.points);
+                Core.OnQuestResult(f, f2, true);
                 break;
             case QuestEndOutcome.InvalidPreAcceptance:
-                Core.OnQuestResult(f, f2, true, __instance.points);
+                Core.OnQuestResult(f, f2, true);
                 break;
             case QuestEndOutcome.Unknown:
-                Core.OnQuestResult(f, f2, true, __instance.points);
+                Core.OnQuestResult(f, f2, true);
                 break;
         }
     }
 }
 
-// 팩션 연락 시, 선택지 추가
+// Add options when contacting a faction
 
-// 채권 만료기한 스택 시 합치기
+// Merge when bonds expire
 
-// 채권 고정 구입/판매 가격
+// Fixed bond purchase/sale price

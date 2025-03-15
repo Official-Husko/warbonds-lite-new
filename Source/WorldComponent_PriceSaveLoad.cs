@@ -55,13 +55,6 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
         };
 
         factionToPriceData.Add(Key, fpdn);
-
-        /*
-            if(t.IsPlayer)
-            {//update for player since it could be renamed
-                factionToPriceData[Key].label = t.GetCallLabel();
-            }
-            */
         return factionToPriceData[Key];
     }
 
@@ -77,12 +70,6 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
         {
             initialized = true;
             float ticksNow = Core.AbsTickGame;
-            /*
-                foreach(Faction f in Find.FactionManager.AllFactions)
-                {
-                    savePrice(f, ticksNow, 0);
-                }
-                */
             foreach (var f in from f in DefDatabase<FactionDef>.AllDefs
                               where
                                   Core.IsWarbondFaction(f)
