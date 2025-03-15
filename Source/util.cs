@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -348,7 +348,7 @@ public static class util
     // 통신기 메뉴 - 군사요청
     public static DiaOption RequestMilitaryAidOptionWarbond(Map map, Faction faction, Pawn negotiator)
     {
-        var warbondDef = ThingDef.Named($"yy_warbond_{faction.def.defName}");
+        var warbondDef = ThingDef.Named($"oh_warbond_{faction.def.defName}");
 
         string text = "warbond.requestMilitaryAid".Translate(modBase.militaryAid_cost, warbondDef.label);
 

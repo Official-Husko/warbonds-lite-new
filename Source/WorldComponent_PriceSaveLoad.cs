@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
@@ -121,8 +121,8 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
     public override void ExposeData()
     {
         Scribe_Values.Look(ref initialized, "initialized");
-        Scribe_Collections.Look(ref factionToPriceData, "yayo_FactionPriceData", LookMode.Value, LookMode.Deep);
-        Scribe_Collections.Look(ref ar_factionData, "yayo_FactionData", LookMode.Value, LookMode.Deep);
+        Scribe_Collections.Look(ref factionToPriceData, "husko_FactionPriceData", LookMode.Value, LookMode.Deep);
+        Scribe_Collections.Look(ref ar_factionData, "husko_FactionData", LookMode.Value, LookMode.Deep);
         if (ar_factionData != null)
         {
             return;

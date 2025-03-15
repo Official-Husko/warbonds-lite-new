@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using HugsLib;
 using HugsLib.Settings;
 using RimWorld;
@@ -63,7 +63,7 @@ namespace rimstocks
             }
         }
 
-        public override string ModIdentifier => "yayo.rimstocks";
+        public override string ModIdentifier => "husko.warbonds.lite";
         protected override bool HarmonyAutoPatch => false;
         public static bool use_rimwar => exist_rimWar && rimwarLink;
 

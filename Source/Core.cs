@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWar.Planet;
@@ -623,7 +623,7 @@ public class Core(Map map) : MapComponent(map)
                 rotatable = false,
                 pathCost = 14,
                 // detail
-                defName = $"yy_warbond_{f.defName}",
+                defName = $"oh_warbond_{f.defName}",
                 label = string.Format("warbond_t".Translate(), f.label),
                 description = string.Format("warbond_d".Translate(), f.label),
                 graphicData = new GraphicData

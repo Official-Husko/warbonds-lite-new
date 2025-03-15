@@ -26,7 +26,7 @@ public static class Harmony_SomeNamespace
 
     static Harmony_SomeNamespace()
     {
-        var harmony = new Harmony("yayo.rimstocks.2");
+        var harmony = new Harmony("husko.warbonds.lite.2");
 
         harmony.Patch(
             AccessTools.Method(typeof(MainTabWindow_History), nameof(MainTabWindow_History.PreOpen)),

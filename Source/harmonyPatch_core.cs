@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Verse;
 
 namespace rimstocks;
@@ -14,7 +14,7 @@ public class harmonyPatch_core : Mod
             new HarmonyMethod(typeof(rimstocks.harmonyPatch_core), nameof(rimstocks.harmonyPatch_core.DefGenerator_GenerateImpliedDefs_PreResolve))
         );
         */
-        new Harmony("yayo.rimstocks.1").PatchAll();
+        new Harmony("husko.warbonds.lite.1").PatchAll();
     }
     /*
     static public void DefGenerator_GenerateImpliedDefs_PreResolve()
