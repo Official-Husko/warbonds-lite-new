@@ -31,13 +31,13 @@ public static class Harmony_SomeNamespace
         harmony.Patch(
             AccessTools.Method(typeof(MainTabWindow_History), nameof(MainTabWindow_History.PreOpen)),
             null,
-            new HarmonyMethod(typeof(Harmony_SomeNamespace), nameof(patch_preOpen1))
+            new HarmonyMethod(typeof(Harmony_SomeNamespace), nameof(Patch_preOpen1))
         );
         harmony.Patch(
             AccessTools.Method(typeof(MainTabWindow_History), nameof(MainTabWindow_History.PreOpen)),
             null,
             null,
-            new HarmonyMethod(typeof(Harmony_SomeNamespace), nameof(graphTranspiler))
+            new HarmonyMethod(typeof(Harmony_SomeNamespace), nameof(GraphTranspiler))
         );
 
         harmony.Patch(
@@ -57,15 +57,15 @@ public static class Harmony_SomeNamespace
         list.Add(new TabRecord("warbond_graphTitle".Translate(),
             delegate
             {
-                CurTabAccessor.SetValue(null, (byte)modBase.ExtraHistoryTabIndex,
+                CurTabAccessor.SetValue(null, (byte)ModBase.ExtraHistoryTabIndex,
                     BindingFlags.NonPublic | BindingFlags.Static, null, null);
-            }, () => (byte)CurTabAccessor.GetValue(null) == modBase.ExtraHistoryTabIndex));
+            }, () => (byte)CurTabAccessor.GetValue(null) == ModBase.ExtraHistoryTabIndex));
         //CurTabAccessor.SetValue(null, (byte)modBase.ExtraHistoryTabIndex, BindingFlags.NonPublic | BindingFlags.Static, null, null);
     }
 
     public static void DoWindowContentsPostFix(Rect rect, ref FloatRange ___graphSection)
     {
-        if ((byte)CurTabAccessor.GetValue(null) != modBase.ExtraHistoryTabIndex)
+        if ((byte)CurTabAccessor.GetValue(null) != ModBase.ExtraHistoryTabIndex)
         {
             return;
         }
@@ -109,13 +109,13 @@ public static class Harmony_SomeNamespace
         GUI.EndGroup();
     }
 
-    public static void patch_preOpen1(ref FloatRange ___graphSection)
+    public static void Patch_preOpen1(ref FloatRange ___graphSection)
     {
         var num = (float)Core.AbsTickGame / GenDate.TicksPerDay;
         ___graphSection = new FloatRange(Mathf.Max(0f, num - 30f), num);
     }
 
-    public static IEnumerable<CodeInstruction> graphTranspiler(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> GraphTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         var callVirt4 = 0;
         var nopStack = 0;

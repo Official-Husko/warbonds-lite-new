@@ -28,7 +28,7 @@ public class FactionPriceData : IExposable
         Scribe_Collections.Look(ref timeToTrendData, "timeToTrendData", LookMode.Value, LookMode.Value);
     }
 
-    public void savePrice(float tick, float price)
+    public void SavePrice(float tick, float price)
     {
         var unitTime = Mathf.FloorToInt(tick / Harmony_SomeNamespace.modularTicksUnit);
         if (timeToPriceData.ContainsKey(unitTime))
@@ -39,7 +39,7 @@ public class FactionPriceData : IExposable
         timeToPriceData.Add(unitTime, price);
     }
 
-    public float loadPrice(float tick)
+    public float LoadPrice(float tick)
     {
         var unitTime = Mathf.FloorToInt(tick / Harmony_SomeNamespace.modularTicksUnit);
         if (timeToPriceData.TryGetValue(unitTime, out var price))
@@ -47,17 +47,17 @@ public class FactionPriceData : IExposable
             return price;
         }
 
-        if (modBase.use_rimwar && FactionDef.Named(defname) != null)
+        if (ModBase.Use_rimwar && FactionDef.Named(defname) != null)
         {
-            return Core.getRimwarPriceByDef(FactionDef.Named(defname));
+            return Core.GetRimwarPriceByDef(FactionDef.Named(defname));
         }
 
         return FactionDef.Named(defname) != null
-            ? Core.getDefaultPrice(FactionDef.Named(defname))
+            ? Core.GetDefaultPrice(FactionDef.Named(defname))
             : Rand.Range(200f, 6000f);
     }
 
-    public void saveTrend(float tick, float trend)
+    public void SaveTrend(float tick, float trend)
     {
         var unitTime = Mathf.FloorToInt(tick / Harmony_SomeNamespace.modularTicksUnit);
         if (timeToTrendData.ContainsKey(unitTime))
@@ -68,7 +68,7 @@ public class FactionPriceData : IExposable
         timeToTrendData.Add(unitTime, trend);
     }
 
-    public float loadTrend(float tick)
+    public float LoadTrend(float tick)
     {
         var unitTime = Mathf.FloorToInt(tick / Harmony_SomeNamespace.modularTicksUnit);
         if (timeToTrendData.TryGetValue(unitTime, out var trend))
@@ -76,13 +76,13 @@ public class FactionPriceData : IExposable
             return trend;
         }
 
-        if (modBase.use_rimwar && FactionDef.Named(defname) != null)
+        if (ModBase.Use_rimwar && FactionDef.Named(defname) != null)
         {
-            return Core.getRimwarPriceByDef(FactionDef.Named(defname));
+            return Core.GetRimwarPriceByDef(FactionDef.Named(defname));
         }
 
         return FactionDef.Named(defname) != null
-            ? Core.getDefaultPrice(FactionDef.Named(defname))
+            ? Core.GetDefaultPrice(FactionDef.Named(defname))
             : Rand.Range(200f, 6000f);
     }
 }

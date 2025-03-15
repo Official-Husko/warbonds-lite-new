@@ -9,7 +9,7 @@ public class FactionData : IExposable
         // Ensure all loan-related data exposure is removed
     }
 
-    public void clear()
+    public void Clear()
     {
         // Ensure all loan-related clearing is removed
     }

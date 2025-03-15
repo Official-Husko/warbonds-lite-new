@@ -8,7 +8,7 @@ using Verse;
 namespace rimstocks
 {
     [EarlyInit]
-    public class modBase : ModBase
+    public class ModBase : HugsLib.ModBase
     {
         public static bool useEnemyFaction;
         public static int ExtraHistoryTabIndex = 3;
@@ -50,7 +50,7 @@ namespace rimstocks
 
         private SettingHandle<bool> useVanillaEnemyFaction_s;
 
-        static modBase()
+        static ModBase()
         {
             if (ModsConfig.ActiveModsInLoadOrder.Any(mod => mod.PackageId.ToLower().Contains("Torann.RimWar".ToLower())))
             {
@@ -65,19 +65,19 @@ namespace rimstocks
 
         public override string ModIdentifier => "husko.warbonds.lite";
         protected override bool HarmonyAutoPatch => false;
-        public static bool use_rimwar => exist_rimWar && rimwarLink;
+        public static bool Use_rimwar => exist_rimWar && rimwarLink;
 
         public override void EarlyInitialize()
         {
-            setupOption();
+            SetupOption();
         }
 
         public override void DefsLoaded()
         {
-            setupOption2();
+            SetupOption2();
         }
 
-        public void setupOption()
+        public void SetupOption()
         {
             useEnemyFaction_s = Settings.GetHandle<bool>("useEnemyFaction", "Mods Enemy Faction (Restart)",
                 "(Need Restart Game)\nMods Enemy faction use warbond");
@@ -92,7 +92,7 @@ namespace rimstocks
             limitDate = limitDate_s.Value;
         }
 
-        public void setupOption2()
+        public void SetupOption2()
         {
             rimwarLink_s = Settings.GetHandle("rimwarLink", "rimwarLink.t".Translate(), "rimwarLink.d".Translate(), true);
             rimwarPriceFactor_s = Settings.GetHandle("rimwarPriceFactor", "rimwarPriceFactor.t".Translate(),
@@ -115,7 +115,7 @@ namespace rimstocks
 
             SettingsChanged();
 
-            Core.patchDef2();
+            Core.PatchDef2();
         }
 
         public override void SettingsChanged()
@@ -135,7 +135,7 @@ namespace rimstocks
             militaryAid_multiply = militaryAid_multiply_s.Value;
             priceEvent_multiply = priceEvent_multiply_s.Value;
 
-            Core.patchIncident();
+            Core.PatchIncident();
         }
 
         public override void MapLoaded(Map map)
@@ -145,7 +145,7 @@ namespace rimstocks
             for (var i = 0; i < Core.ar_warbondDef.Count; i++)
             {
                 var f = Core.ar_faction[i];
-                var lastPrice = WorldComponent_PriceSaveLoad.loadPrice(f, Core.AbsTickGame);
+                var lastPrice = WorldComponent_PriceSaveLoad.LoadPrice(f, Core.AbsTickGame);
                 Core.ar_warbondDef[i].SetStatBaseValue(StatDefOf.MarketValue, lastPrice);
             }
         }

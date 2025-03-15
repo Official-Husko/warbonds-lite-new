@@ -20,7 +20,7 @@ public class CustomGraphGroup
             //foreach (string faction in WorldComponent_PriceSaveLoad.staticInstance.factionToPriceData.Keys)
             foreach (var f in Core.ar_faction)
             {
-                var key = util.factionDefNameToKey(f.defName);
+                var key = Util.FactionDefNameToKey(f.defName);
                 if (!WorldComponent_PriceSaveLoad.staticInstance.factionToPriceData.ContainsKey(key))
                 {
                     continue;
@@ -182,7 +182,7 @@ public class CustomGraphGroup
         var num4 = 0;
         foreach (var fd in Core.ar_faction)
         {
-            var key = util.factionDefNameToKey(fd.defName);
+            var key = Util.FactionDefNameToKey(fd.defName);
             if (!WorldComponent_PriceSaveLoad.staticInstance.factionToPriceData.ContainsKey(key))
             {
                 continue;

@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace rimstocks.HarmonyPatches;
 
-// 퀘스트 완료 시 주가변동
+// Stock price fluctuations when a quest is completed
 [HarmonyPatch(typeof(Quest), nameof(Quest.End))]
 internal class Quest_End
 {

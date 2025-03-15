@@ -19,29 +19,29 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
         staticInstance = this;
     }
 
-    public static void savePrice(FactionDef faction, float tick, float price)
+    public static void SavePrice(FactionDef faction, float tick, float price)
     {
-        staticInstance.getFactionPriceDataFrom(faction).savePrice(tick, price);
+        staticInstance.GetFactionPriceDataFrom(faction).SavePrice(tick, price);
     }
 
-    public static float loadPrice(FactionDef faction, float tick)
+    public static float LoadPrice(FactionDef faction, float tick)
     {
-        return staticInstance.getFactionPriceDataFrom(faction).loadPrice(tick);
+        return staticInstance.GetFactionPriceDataFrom(faction).LoadPrice(tick);
     }
 
-    public static void saveTrend(FactionDef faction, float tick, float price)
+    public static void SaveTrend(FactionDef faction, float tick, float price)
     {
-        staticInstance.getFactionPriceDataFrom(faction).saveTrend(tick, price);
+        staticInstance.GetFactionPriceDataFrom(faction).SaveTrend(tick, price);
     }
 
-    public static float loadTrend(FactionDef faction, float tick)
+    public static float LoadTrend(FactionDef faction, float tick)
     {
-        return staticInstance.getFactionPriceDataFrom(faction).loadTrend(tick);
+        return staticInstance.GetFactionPriceDataFrom(faction).LoadTrend(tick);
     }
 
-    public FactionPriceData getFactionPriceDataFrom(FactionDef f)
+    public FactionPriceData GetFactionPriceDataFrom(FactionDef f)
     {
-        var Key = util.factionDefNameToKey(f.defName);
+        var Key = Util.FactionDefNameToKey(f.defName);
         if (factionToPriceData.TryGetValue(Key, out var from))
         {
             return from;
@@ -84,21 +84,21 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
                 }
                 */
             foreach (var f in from f in DefDatabase<FactionDef>.AllDefs
-                     where
-                         Core.IsWarbondFaction(f)
-                     select f)
+                              where
+                                  Core.IsWarbondFaction(f)
+                              select f)
             {
-                if (modBase.use_rimwar)
+                if (ModBase.Use_rimwar)
                 {
-                    savePrice(f, ticksNow, Core.getRimwarPriceByDef(f));
+                    SavePrice(f, ticksNow, Core.GetRimwarPriceByDef(f));
                 }
                 else if (f != null)
                 {
-                    savePrice(f, ticksNow, Core.getDefaultPrice(f));
+                    SavePrice(f, ticksNow, Core.GetDefaultPrice(f));
                 }
                 else
                 {
-                    savePrice(null, ticksNow, Rand.Range(200f, 6000f));
+                    SavePrice(null, ticksNow, Rand.Range(200f, 6000f));
                 }
             }
         }
@@ -106,14 +106,14 @@ public class WorldComponent_PriceSaveLoad : WorldComponent
         {
             foreach (var f in Core.ar_faction)
             {
-                var key = util.factionDefNameToKey(f.defName);
+                var key = Util.FactionDefNameToKey(f.defName);
                 if (!staticInstance.factionToPriceData.Keys.Contains(key))
                 {
                     continue;
                 }
 
                 var rs = staticInstance.GetFactionPriceDataByKey(key);
-                rs.defname = util.keyToFactionDefName(key);
+                rs.defname = Util.KeyToFactionDefName(key);
             }
         }
     }

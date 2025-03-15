@@ -8,13 +8,13 @@ using Verse;
 
 namespace rimstocks;
 
-public static class util
+public static class Util
 {
     private static List<Thing> rewards = [];
 
 
     // 특정 채권 모두제거 (상장폐지용)
-    public static bool removeAllThingByDef(ThingDef def)
+    public static bool RemoveAllThingByDef(ThingDef def)
     {
         var removed = false;
         foreach (var m in from m in Find.Maps where m.ParentFaction == Find.FactionManager.OfPlayer select m)
@@ -43,13 +43,13 @@ public static class util
 
 
     // 배당금 지급
-    public static void giveDividend(FactionDef f, ThingDef warbondDef)
+    public static void GiveDividend(FactionDef f, ThingDef warbondDef)
     {
         foreach (var m in from m in Find.Maps where m.ParentFaction == Find.FactionManager.OfPlayer select m)
         {
             // 보상 가격 규모 설정
             var bondCount = AmountWarbondForDividend(m, warbondDef);
-            var marketValue = bondCount * warbondDef.BaseMarketValue * modBase.dividendPer;
+            var marketValue = bondCount * warbondDef.BaseMarketValue * ModBase.dividendPer;
 
 
             var intVec = DropCellFinder.TradeDropSpot(m);
@@ -151,7 +151,7 @@ public static class util
                 continue;
             }
 
-            marketValue = Math.Min(marketValue, modBase.maxReward);
+            marketValue = Math.Min(marketValue, ModBase.maxReward);
 
             rewards = MakeThings(marketValue, ar_thingDef, f);
 
@@ -172,7 +172,7 @@ public static class util
         return;
 
         // 배당금 물품 DEF 기본 체크
-        bool basicThingCheck(ThingDef t)
+        static bool basicThingCheck(ThingDef t)
         {
             return t.tradeability != Tradeability.None && t.race == null && !t.IsBuildingArtificial;
         }
@@ -329,15 +329,6 @@ public static class util
             select t).Sum(t => t.stackCount);
     }
 
-
-    private static int AmountSendableSilver(Map map)
-    {
-        return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
-            where t.def == ThingDefOf.Silver
-            select t).Sum(t => t.stackCount);
-    }
-
-
     private static int AmountSendableWarbond(Map map, ThingDef td)
     {
         return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
@@ -350,9 +341,9 @@ public static class util
     {
         var warbondDef = ThingDef.Named($"oh_warbond_{faction.def.defName}");
 
-        string text = "warbond.requestMilitaryAid".Translate(modBase.militaryAid_cost, warbondDef.label);
+        string text = "warbond.requestMilitaryAid".Translate(ModBase.militaryAid_cost, warbondDef.label);
 
-        if (AmountSendableWarbond(map, warbondDef) < modBase.militaryAid_cost)
+        if (AmountSendableWarbond(map, warbondDef) < ModBase.militaryAid_cost)
         {
             var diaOption = new DiaOption(text);
             diaOption.Disable("warbond.noCost".Translate());
@@ -432,13 +423,13 @@ public static class util
 
     private static void CallForAidWarBond(Map map, Faction faction, ThingDef warbondDef)
     {
-        TradeUtility.LaunchThingsOfType(warbondDef, modBase.militaryAid_cost, map, null);
+        TradeUtility.LaunchThingsOfType(warbondDef, ModBase.militaryAid_cost, map, null);
         var incidentParms = new IncidentParms
         {
             target = map,
             faction = faction,
             raidArrivalModeForQuickMilitaryAid = true,
-            points = warbondDef.BaseMarketValue * modBase.militaryAid_multiply * 2f
+            points = warbondDef.BaseMarketValue * ModBase.militaryAid_multiply * 2f
         };
 
         if (faction.PlayerRelationKind == FactionRelationKind.Hostile)
@@ -450,12 +441,12 @@ public static class util
         IncidentDefOf.RaidFriendly.Worker.TryExecute(incidentParms);
     }
 
-    public static string factionDefNameToKey(string defname)
+    public static string FactionDefNameToKey(string defname)
     {
         return $"warbondPrice_{defname}";
     }
 
-    public static string keyToFactionDefName(string key)
+    public static string KeyToFactionDefName(string key)
     {
         return key.Substring(key.IndexOf('_') + 1, key.Length - key.IndexOf('_') - 1);
     }

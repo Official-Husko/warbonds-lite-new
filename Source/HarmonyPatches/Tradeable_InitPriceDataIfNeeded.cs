@@ -15,7 +15,7 @@ internal class Tradeable_InitPriceDataIfNeeded
         }
 
         ___pricePlayerBuy = __instance.ThingDef.BaseMarketValue;
-        ___pricePlayerSell = __instance.ThingDef.BaseMarketValue * modBase.sellPrice *
+        ___pricePlayerSell = __instance.ThingDef.BaseMarketValue * ModBase.sellPrice *
                              (__instance.AnyThing.HitPoints / (float)__instance.AnyThing.MaxHitPoints);
     }
 }

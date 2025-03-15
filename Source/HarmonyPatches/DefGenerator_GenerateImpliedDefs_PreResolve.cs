@@ -8,6 +8,6 @@ public class DefGenerator_GenerateImpliedDefs_PreResolve
 {
     public static void Prefix()
     {
-        Core.patchDef();
+        Core.PatchDef();
     }
 }

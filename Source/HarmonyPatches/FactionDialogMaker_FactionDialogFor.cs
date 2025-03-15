@@ -11,12 +11,12 @@ internal class FactionDialogMaker_FactionDialogFor
     {
         DiaOption opt;
         // 채권 군사요청
-        if (!Core.isWarbondFaction(faction.def))
+        if (!Core.IsWarbondFaction(faction.def))
         {
             return;
         }
 
-        opt = util.RequestMilitaryAidOptionWarbond(negotiator.Map, faction, negotiator);
+        opt = Util.RequestMilitaryAidOptionWarbond(negotiator.Map, faction, negotiator);
         if (negotiator.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)
         {
             opt.Disable("WorkTypeDisablesOption".Translate(SkillDefOf.Social.label));

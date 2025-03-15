@@ -3,9 +3,9 @@ using Verse;
 
 namespace rimstocks;
 
-public class harmonyPatch_core : Mod
+public class HarmonyPatch_core : Mod
 {
-    public harmonyPatch_core(ModContentPack content) : base(content)
+    public HarmonyPatch_core(ModContentPack content) : base(content)
     {
         /*
         harmony.Patch(
@@ -19,7 +19,7 @@ public class harmonyPatch_core : Mod
     /*
     static public void DefGenerator_GenerateImpliedDefs_PreResolve()
     {
-        rimstocks.Core.patchDef();
+        rimstocks.Core.PatchDef();
     }
     */
 }

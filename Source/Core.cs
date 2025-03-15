@@ -46,7 +46,7 @@ public class Core(Map map) : MapComponent(map)
             return true;
         }
 
-        if (modBase.useEnemyFaction)
+        if (ModBase.useEnemyFaction)
         {
             if (!f.modContentPack.PackageId.Contains("ludeon"))
             {
@@ -54,7 +54,7 @@ public class Core(Map map) : MapComponent(map)
             }
         }
 
-        if (!modBase.useVanillaEnemyFaction)
+        if (!ModBase.useVanillaEnemyFaction)
         {
             return f.defName == "Pirate";
         }
@@ -77,7 +77,7 @@ public class Core(Map map) : MapComponent(map)
 
         if (AbsTickGame % GenDate.TicksPerDay == 0)
         {
-            if (modBase.use_rimwar)
+            if (ModBase.Use_rimwar)
             {
                 // RimWar
                 try
@@ -91,15 +91,15 @@ public class Core(Map map) : MapComponent(map)
                             {
                                 case "wl_warbond_rise":
                                     // Stock price surge
-                                    changeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.8f);
+                                    ChangeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.8f);
                                     break;
                                 case "wl_warbond_fall":
                                     // Stock price plunge
-                                    changeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.2f);
+                                    ChangeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.2f);
                                     break;
                                 case "wl_warbond_change":
                                     // Stock price fluctuations
-                                    changeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.5f);
+                                    ChangeRimwarAllFactionPower(new FloatRange(0.1f, 0.4f), 0.5f);
                                     break;
                             }
                         }
@@ -107,9 +107,9 @@ public class Core(Map map) : MapComponent(map)
                         // Apply faction power to price now
                         foreach (var fd in ar_faction)
                         {
-                            var price = getRimwarPriceByDef(fd);
-                            WorldComponent_PriceSaveLoad.saveTrend(fd, AbsTickGame, price);
-                            WorldComponent_PriceSaveLoad.savePrice(fd, AbsTickGame, price);
+                            var price = GetRimwarPriceByDef(fd);
+                            WorldComponent_PriceSaveLoad.SaveTrend(fd, AbsTickGame, price);
+                            WorldComponent_PriceSaveLoad.SavePrice(fd, AbsTickGame, price);
                             ar_warbondDef[ar_faction.IndexOf(fd)].SetStatBaseValue(StatDefOf.MarketValue, price);
                         }
                     }))();
@@ -130,8 +130,8 @@ public class Core(Map map) : MapComponent(map)
                 {
                     var f = ar_faction[i];
                     var style = ar_graphStyle[i];
-                    var prevTrend = WorldComponent_PriceSaveLoad.loadTrend(f, AbsTickGame - tickGap);
-                    var prevTrend2 = WorldComponent_PriceSaveLoad.loadTrend(f, AbsTickGame - (tickGap * 2));
+                    var prevTrend = WorldComponent_PriceSaveLoad.LoadTrend(f, AbsTickGame - tickGap);
+                    var prevTrend2 = WorldComponent_PriceSaveLoad.LoadTrend(f, AbsTickGame - (tickGap * 2));
 
                     // Trend angle
                     float slope = style switch
@@ -312,31 +312,31 @@ public class Core(Map map) : MapComponent(map)
                     var newTrend = Mathf.Clamp(prevTrend * slope, minPrice, maxPrice);
                     var newPrice = Mathf.Clamp(newTrend * shake, minPrice, maxPrice);
                     ar_warbondDef[i].SetStatBaseValue(StatDefOf.MarketValue, newPrice);
-                    WorldComponent_PriceSaveLoad.saveTrend(f, AbsTickGame, newTrend);
-                    WorldComponent_PriceSaveLoad.savePrice(f, AbsTickGame, newPrice);
+                    WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame, newTrend);
+                    WorldComponent_PriceSaveLoad.SavePrice(f, AbsTickGame, newPrice);
 
 
                     // Delisting
-                    if (!(newPrice < modBase.DelistingPrice))
+                    if (!(newPrice < ModBase.DelistingPrice))
                     {
                         continue;
                     }
 
-                    WorldComponent_PriceSaveLoad.saveTrend(f, AbsTickGame - GenDate.TicksPerDay,
-                        getDefaultPrice(f));
-                    WorldComponent_PriceSaveLoad.saveTrend(f, AbsTickGame, getDefaultPrice(f));
-                    WorldComponent_PriceSaveLoad.savePrice(f, AbsTickGame, getDefaultPrice(f));
+                    WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame - GenDate.TicksPerDay,
+                        GetDefaultPrice(f));
+                    WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame, GetDefaultPrice(f));
+                    WorldComponent_PriceSaveLoad.SavePrice(f, AbsTickGame, GetDefaultPrice(f));
 
-                    if (util.removeAllThingByDef(ar_warbondDef[i]))
+                    if (Util.RemoveAllThingByDef(ar_warbondDef[i]))
                     {
                         Messages.Message(new Message(
-                            "bond.delisting.destroy".Translate(ar_warbondDef[i].label, modBase.DelistingPrice),
+                            "bond.delisting.destroy".Translate(ar_warbondDef[i].label, ModBase.DelistingPrice),
                             MessageTypeDefOf.ThreatSmall));
                     }
                     else
                     {
                         Messages.Message(new Message(
-                            "bond.delisting".Translate(ar_warbondDef[i].label, modBase.DelistingPrice),
+                            "bond.delisting".Translate(ar_warbondDef[i].label, ModBase.DelistingPrice),
                             MessageTypeDefOf.ThreatSmall));
                     }
                 }
@@ -353,7 +353,7 @@ public class Core(Map map) : MapComponent(map)
         // Pay dividends
         for (var i = 0; i < ar_faction.Count; i++)
         {
-            util.giveDividend(ar_faction[i], ar_warbondDef[i]);
+            Util.GiveDividend(ar_faction[i], ar_warbondDef[i]);
         }
     }
 
@@ -366,7 +366,7 @@ public class Core(Map map) : MapComponent(map)
         float change;
 
 
-        if (modBase.use_rimwar)
+        if (ModBase.Use_rimwar)
         {
             // RimWar
             try
@@ -397,7 +397,7 @@ public class Core(Map map) : MapComponent(map)
                                 change = 1f;
                                 resetChangeScale();
                                 changeScale *= Mathf.Min(1f,
-                                    1500f * modBase.rimwarPriceFactor / getRimwarPriceByDef(f));
+                                    1500f * ModBase.rimwarPriceFactor / GetRimwarPriceByDef(f));
                                 if (success)
                                 {
                                     change = 1f + changeScale;
@@ -423,9 +423,9 @@ public class Core(Map map) : MapComponent(map)
                                 price += data.TotalFactionPoints;
                             }
 
-                            price *= modBase.rimwarPriceFactor;
-                            WorldComponent_PriceSaveLoad.saveTrend(f, AbsTickGame, price);
-                            WorldComponent_PriceSaveLoad.savePrice(f, AbsTickGame, price);
+                            price *= ModBase.rimwarPriceFactor;
+                            WorldComponent_PriceSaveLoad.SaveTrend(f, AbsTickGame, price);
+                            WorldComponent_PriceSaveLoad.SavePrice(f, AbsTickGame, price);
                             ar_warbondDef[ar_faction.IndexOf(f)].SetStatBaseValue(StatDefOf.MarketValue, price);
                         }
                     }
@@ -459,7 +459,7 @@ public class Core(Map map) : MapComponent(map)
                         change = 1f;
                         resetChangeScale();
                         changeScale *= Mathf.Min(1f,
-                            1500f * modBase.rimwarPriceFactor / getRimwarPriceByDef(f));
+                            1500f * ModBase.rimwarPriceFactor / GetRimwarPriceByDef(f));
                         if (!success)
                         {
                             change = 1f + changeScale;
@@ -485,9 +485,9 @@ public class Core(Map map) : MapComponent(map)
                         price += data.TotalFactionPoints;
                     }
 
-                    price *= modBase.rimwarPriceFactor;
-                    WorldComponent_PriceSaveLoad.saveTrend(f2, AbsTickGame, price);
-                    WorldComponent_PriceSaveLoad.savePrice(f2, AbsTickGame, price);
+                    price *= ModBase.rimwarPriceFactor;
+                    WorldComponent_PriceSaveLoad.SaveTrend(f2, AbsTickGame, price);
+                    WorldComponent_PriceSaveLoad.SavePrice(f2, AbsTickGame, price);
                     ar_warbondDef[ar_faction.IndexOf(f2)].SetStatBaseValue(StatDefOf.MarketValue, price);
                 }))();
             }
@@ -505,7 +505,7 @@ public class Core(Map map) : MapComponent(map)
             index = ar_faction.IndexOf(f);
             if (index >= 0)
             {
-                prev = WorldComponent_PriceSaveLoad.loadTrend(f, targetTime);
+                prev = WorldComponent_PriceSaveLoad.LoadTrend(f, targetTime);
                 resetChangeScale();
                 changeScale *= Mathf.Min(1f, 1500f / prev);
                 if (success)
@@ -523,9 +523,9 @@ public class Core(Map map) : MapComponent(map)
                             "-" + (changeScale * 100f).ToString("0.#")), MessageTypeDefOf.ThreatSmall));
                 }
 
-                WorldComponent_PriceSaveLoad.saveTrend(f, targetTime, change * prev);
-                prev = WorldComponent_PriceSaveLoad.loadPrice(f, targetTime);
-                WorldComponent_PriceSaveLoad.savePrice(f, targetTime, change * prev);
+                WorldComponent_PriceSaveLoad.SaveTrend(f, targetTime, change * prev);
+                prev = WorldComponent_PriceSaveLoad.LoadPrice(f, targetTime);
+                WorldComponent_PriceSaveLoad.SavePrice(f, targetTime, change * prev);
                 ar_warbondDef[index].SetStatBaseValue(StatDefOf.MarketValue, change * prev);
             }
         }
@@ -542,7 +542,7 @@ public class Core(Map map) : MapComponent(map)
             return;
         }
 
-        prev = WorldComponent_PriceSaveLoad.loadTrend(f2, targetTime);
+        prev = WorldComponent_PriceSaveLoad.LoadTrend(f2, targetTime);
         resetChangeScale();
         changeScale *= Mathf.Min(1f, 1500f / prev);
         if (!success)
@@ -560,9 +560,9 @@ public class Core(Map map) : MapComponent(map)
                     "-" + (changeScale * 100f).ToString("0.#")), MessageTypeDefOf.ThreatSmall));
         }
 
-        WorldComponent_PriceSaveLoad.saveTrend(f2, targetTime, change * prev);
-        prev = WorldComponent_PriceSaveLoad.loadPrice(f2, targetTime);
-        WorldComponent_PriceSaveLoad.savePrice(f2, targetTime, change * prev);
+        WorldComponent_PriceSaveLoad.SaveTrend(f2, targetTime, change * prev);
+        prev = WorldComponent_PriceSaveLoad.LoadPrice(f2, targetTime);
+        WorldComponent_PriceSaveLoad.SavePrice(f2, targetTime, change * prev);
         ar_warbondDef[index].SetStatBaseValue(StatDefOf.MarketValue, change * prev);
         return;
 
@@ -644,7 +644,7 @@ public class Core(Map map) : MapComponent(map)
 
             t.tickerType = TickerType.Rare;
 
-            if (modBase.limitDate > 0)
+            if (ModBase.limitDate > 0)
             {
                 var cp_lifespan = new CompProperties_Lifespan
                 {
@@ -696,7 +696,7 @@ public class Core(Map map) : MapComponent(map)
     }
 
 
-    public static void patchDef2()
+    public static void PatchDef2()
     {
         foreach (var t in ar_warbondDef)
         {
@@ -706,7 +706,7 @@ public class Core(Map map) : MapComponent(map)
                 continue;
             }
 
-            cp.lifespanTicks = GenDate.TicksPerDay * modBase.limitDate;
+            cp.lifespanTicks = GenDate.TicksPerDay * ModBase.limitDate;
         }
     }
 
@@ -717,12 +717,12 @@ public class Core(Map map) : MapComponent(map)
                      i.defName.Contains("rs_warbond")
                  select i)
         {
-            i.baseChance = 3f * modBase.priceEvent_multiply;
+            i.baseChance = 3f * ModBase.priceEvent_multiply;
         }
     }
 
 
-    public static float getDefaultPrice(FactionDef fd)
+    public static float GetDefaultPrice(FactionDef fd)
     {
         var index = ar_faction.IndexOf(fd);
         if (index < 0 || index >= ar_graphStyle.Count)
@@ -739,9 +739,9 @@ public class Core(Map map) : MapComponent(map)
         };
     }
 
-    public static void changeRimwarAllFactionPower(FloatRange changeScaleRange, float increasePer)
+    public static void ChangeRimwarAllFactionPower(FloatRange changeScaleRange, float increasePer)
     {
-        if (!modBase.use_rimwar)
+        if (!ModBase.Use_rimwar)
         {
             return;
         }
@@ -757,7 +757,7 @@ public class Core(Map map) : MapComponent(map)
             var multiply = 1f;
             if (Rand.Chance(increasePer))
             {
-                var nerfForTooMuchPowerful = Mathf.Min(1f, 1500f * modBase.rimwarPriceFactor / getRimwarPrice(f));
+                var nerfForTooMuchPowerful = Mathf.Min(1f, 1500f * ModBase.rimwarPriceFactor / GetRimwarPrice(f));
                 multiply += Rand.Range(changeScaleRange.min, changeScaleRange.max) * nerfForTooMuchPowerful;
             }
             else
@@ -772,10 +772,10 @@ public class Core(Map map) : MapComponent(map)
         }
     }
 
-    public static float getRimwarPriceByDef(FactionDef fd)
+    public static float GetRimwarPriceByDef(FactionDef fd)
     {
         var price = -1f;
-        if (!modBase.use_rimwar)
+        if (!ModBase.Use_rimwar)
         {
             return price;
         }
@@ -796,7 +796,7 @@ public class Core(Map map) : MapComponent(map)
                     }
                 }
 
-                price *= modBase.rimwarPriceFactor;
+                price *= ModBase.rimwarPriceFactor;
                 price = Mathf.Max(1f, price);
             }))();
         }
@@ -807,10 +807,10 @@ public class Core(Map map) : MapComponent(map)
         return price;
     }
 
-    public static float getRimwarPrice(Faction f)
+    public static float GetRimwarPrice(Faction f)
     {
         var price = -1f;
-        if (!modBase.use_rimwar)
+        if (!ModBase.Use_rimwar)
         {
             return price;
         }
@@ -823,7 +823,7 @@ public class Core(Map map) : MapComponent(map)
                 price = WorldUtility.GetRimWarDataForFaction(f) != null
                     ? WorldUtility.GetRimWarDataForFaction(f).TotalFactionPoints
                     : 0;
-                price *= modBase.rimwarPriceFactor;
+                price *= ModBase.rimwarPriceFactor;
                 price = Mathf.Max(1f, price);
             }))();
         }
